@@ -21,6 +21,9 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^19.8.1
         version: 19.8.1
+      '@types/node':
+        specifier: ^24.3.0
+        version: 24.3.0
       '@unocss/preset-attributify':
         specifier: ^66.4.2
         version: 66.4.2
