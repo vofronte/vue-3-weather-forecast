@@ -1,8 +1,8 @@
 {
   "name": "vue-3-weather-forecast",
-  "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
@@ -16,7 +16,8 @@
     "@unocss/preset-attributify": "^66.4.2",
     "@unocss/preset-wind4": "^66.4.2",
     "@vitejs/plugin-vue": "^6.0.1",
-    "@vue/tsconfig": "^0.7.0",
+    "@vue/tsconfig": "^0.8.1",
+    "eslint": "^9.33.0",
     "typescript": "~5.8.3",
     "unocss": "^66.4.2",
     "vite": "^7.1.2",
