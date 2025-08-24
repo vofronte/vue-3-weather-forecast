@@ -23,6 +23,7 @@ catalog:
   unocss: ^66.4.2
   '@unocss/eslint-plugin': ^66.4.2
   '@unocss/preset-attributify': ^66.4.2
+  '@unocss/preset-web-fonts': ^66.4.2
   '@unocss/preset-wind4': ^66.4.2
 
   # Commit & Git Hooks

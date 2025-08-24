@@ -20,6 +20,7 @@
     "@types/node": "catalog:",
     "@unocss/eslint-plugin": "catalog:",
     "@unocss/preset-attributify": "catalog:",
+    "@unocss/preset-web-fonts": "catalog:",
     "@unocss/preset-wind4": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "@vue/tsconfig": "catalog:",
