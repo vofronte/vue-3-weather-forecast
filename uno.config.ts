@@ -17,7 +17,7 @@ export default defineConfig({
       fonts: {
         sans: {
           name: 'Geologica',
-          weights: ['400', '700'],
+          weights: ['400', '500', '600', '700'],
         },
       },
       processors: createLocalFontProcessor({
@@ -29,5 +29,6 @@ export default defineConfig({
   shortcuts: {
     'bg-main-gradient': 'bg-[linear-gradient(116.21deg,#052652_-3.25%,#2D9CDB_107.37%)]',
     'bg-card-gradient': 'bg-[radial-gradient(134.39%_134.39%_at_-17.89%_-22.86%,rgba(255,255,255,0.2)_0%,rgba(238,237,237,0.1)_100%)]',
+    'tracking-tightest': 'tracking-[-0.01em]',
   },
 })
