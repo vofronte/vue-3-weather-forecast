@@ -6,6 +6,10 @@ import WeatherTabs from '@/features/weather-tabs/ui/WeatherTabs.vue'
 import WeatherWidget from '@/widgets/WeatherWidget.vue'
 import WeatherWidgetSkeleton from '@/widgets/WeatherWidgetSkeleton.vue'
 
+type Tab = 'today' | 'week'
+
+const activeTab = ref<Tab>('today')
+
 const selectedCity = ref<GeocodingResult>({
   id: 551487,
   name: 'Казань',
@@ -31,10 +35,8 @@ function handleCitySelection(city: GeocodingResult) {
 <template>
   <div class="text-white font-sans p-4 bg-main-gradient min-h-screen w-full md:p-8">
     <div class="mx-auto flex flex-col gap-10 max-w-7xl md:gap-14">
-      <header
-        class="flex flex-col gap-4 items-center justify-center md:flex-row md:justify-between"
-      >
-        <WeatherTabs />
+      <header class="flex flex-col gap-4 items-center justify-center md:flex-row md:justify-between">
+        <WeatherTabs v-model="activeTab" />
         <CitySearch @select-city="handleCitySelection" />
       </header>
 
@@ -45,7 +47,7 @@ function handleCitySelection(city: GeocodingResult) {
       <main v-else>
         <Suspense>
           <template #default>
-            <WeatherWidget :key="selectedCity.id" :city="selectedCity" />
+            <WeatherWidget :key="selectedCity.id" :city="selectedCity" :active-tab="activeTab" />
           </template>
 
           <template #fallback>
