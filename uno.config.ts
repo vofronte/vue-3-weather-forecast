@@ -1,6 +1,6 @@
 import { createLocalFontProcessor } from '@unocss/preset-web-fonts/local'
 import { createRemToPxProcessor } from '@unocss/preset-wind4/utils'
-import { defineConfig, presetAttributify, presetWebFonts, presetWind4 } from 'unocss'
+import { defineConfig, presetWebFonts, presetWind4 } from 'unocss'
 
 export default defineConfig({
   presets: [
@@ -12,7 +12,6 @@ export default defineConfig({
         },
       },
     }),
-    presetAttributify(),
     presetWebFonts({
       provider: 'google',
       fonts: {
@@ -27,4 +26,8 @@ export default defineConfig({
     }),
   ],
   postprocess: [createRemToPxProcessor()],
+  shortcuts: {
+    'bg-main-gradient': 'bg-[linear-gradient(116.21deg,#052652_-3.25%,#2D9CDB_107.37%)]',
+    'bg-card-gradient': 'bg-[radial-gradient(134.39%_134.39%_at_-17.89%_-22.86%,rgba(255,255,255,0.2)_0%,rgba(238,237,237,0.1)_100%)]',
+  },
 })

@@ -5,6 +5,7 @@ packages:
 
 catalog:
   # Core Dependencies
+  openmeteo: ^1.2.0
   vue: ^3.5.19
 
   # Build & Dev Tools
@@ -22,7 +23,6 @@ catalog:
   # Styling (UnoCSS)
   unocss: ^66.4.2
   '@unocss/eslint-plugin': ^66.4.2
-  '@unocss/preset-attributify': ^66.4.2
   '@unocss/preset-web-fonts': ^66.4.2
   '@unocss/preset-wind4': ^66.4.2
 
