@@ -2,6 +2,7 @@
 import WeatherIcon from './WeatherIcon.vue'
 
 defineProps<{
+  cityName: string
   temperature: number
   weatherCode: number
   weatherDescription: string
@@ -13,7 +14,7 @@ defineProps<{
 <template>
   <div class="text-center md:text-left">
     <h2 class="text-2xl leading-[1.3] tracking-tightest font-semibold md:text-4xl">
-      Погода в городе Казань
+      Погода в городе {{ cityName }}
     </h2>
     <p class="text-xl text-white/60 leading-[1.2] tracking-tightest md:text-2xl">
       сегодня, {{ new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }) }}

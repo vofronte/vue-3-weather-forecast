@@ -1,17 +1,32 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import type { GeocodingResult } from '@/features/city-search/model/types'
+import { onMounted, ref } from 'vue'
 import { getWeatherDescription } from '@/entities/weather/lib/weatherCodes'
 import { useWeather } from '@/entities/weather/model/useWeather'
 import CurrentWeatherSummary from '@/entities/weather/ui/CurrentWeatherSummary.vue'
 import WeatherCard from '@/entities/weather/ui/WeatherCard.vue'
-import CitySelector from '@/features/city-selector/ui/CitySelector.vue'
+import CitySearch from '@/features/city-search/ui/CitySearch.vue'
 import WeatherTabs from '@/features/weather-tabs/ui/WeatherTabs.vue'
 
 const { weather, isLoading, error, fetchWeather } = useWeather()
 
-onMounted(() => {
-  fetchWeather(55.79, 49.12)
+const selectedCity = ref<GeocodingResult>({
+  id: 551487,
+  name: 'Казань',
+  latitude: 55.7887,
+  longitude: 49.1221,
+  country: 'Россия',
+  admin1: 'Республика Татарстан',
 })
+
+onMounted(() => {
+  fetchWeather(selectedCity.value.latitude, selectedCity.value.longitude)
+})
+
+function handleCitySelection(city: GeocodingResult) {
+  selectedCity.value = city
+  fetchWeather(city.latitude, city.longitude)
+}
 </script>
 
 <template>
@@ -21,7 +36,7 @@ onMounted(() => {
         class="flex flex-col gap-4 items-center justify-center md:flex-row md:justify-between"
       >
         <WeatherTabs />
-        <CitySelector />
+        <CitySearch @select-city="handleCitySelection" />
       </header>
 
       <main v-if="isLoading" class="text-xl text-center">
@@ -33,11 +48,12 @@ onMounted(() => {
       <main v-else-if="weather" class="flex flex-col gap-12">
         <!-- Блок с основной погодой -->
         <CurrentWeatherSummary
+          :city-name="selectedCity.name"
           :temperature="weather.current.temperature_2m"
           :weather-description="getWeatherDescription(weather.current.weather_code)"
           :humidity="weather.current.relative_humidity_2m"
           :wind-speed="weather.current.wind_speed_10m"
-          :weather-code="0"
+          :weather-code="weather.current.weather_code"
         />
 
         <!-- Блок "Погода в популярных городах" -->
