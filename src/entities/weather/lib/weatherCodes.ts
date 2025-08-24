@@ -34,21 +34,38 @@ export interface WeatherInfo {
   iconName: string
 }
 
+const WINDY_THRESHOLD_MS = 7 // Если ветер > 7 м/с, то считаем "Ветрено"
+
 const WEATHER_DATA = new Map<WeatherCode, WeatherInfo>([
   [WeatherCode.ClearSky, { description: 'Ясно', iconName: 'SunnyIcon' }],
-  [WeatherCode.MainlyClear, { description: 'В основном ясно', iconName: 'PartlyCloudyIcon' }],
+  [WeatherCode.MainlyClear, { description: 'В основном ясно', iconName: 'SunnyIcon' }],
   [WeatherCode.PartlyCloudy, { description: 'Переменная облачность', iconName: 'CloudyIcon' }],
   [WeatherCode.Overcast, { description: 'Пасмурно', iconName: 'CloudyIcon' }],
-  [WeatherCode.RainSlight, { description: 'Дождь: слабый', iconName: 'RainIcon' }],
+  [WeatherCode.Fog, { description: 'Туман', iconName: 'CloudyIcon' }],
+  [WeatherCode.DrizzleLight, { description: 'Морось', iconName: 'RainIcon' }],
+  [WeatherCode.DrizzleModerate, { description: 'Морось', iconName: 'RainIcon' }],
+  [WeatherCode.DrizzleDense, { description: 'Сильная морось', iconName: 'RainIcon' }],
+  [WeatherCode.RainSlight, { description: 'Небольшой дождь', iconName: 'RainIcon' }],
+  [WeatherCode.RainModerate, { description: 'Дождь', iconName: 'RainIcon' }],
+  [WeatherCode.RainHeavy, { description: 'Сильный дождь', iconName: 'RainIcon' }],
+  [WeatherCode.RainShowersSlight, { description: 'Слабый ливень', iconName: 'RainIcon' }],
+  [WeatherCode.RainShowersModerate, { description: 'Ливень', iconName: 'RainIcon' }],
+  [WeatherCode.RainShowersViolent, { description: 'Сильный ливень', iconName: 'RainIcon' }],
 ])
 
-export function getWeatherInfo(code: number): WeatherInfo | undefined {
+export function getWeatherInfo(code: number, windSpeed: number): WeatherInfo {
+  if (windSpeed > WINDY_THRESHOLD_MS)
+    return { description: 'Ветрено', iconName: 'WindyIcon' }
+
   if (Object.values(WeatherCode).includes(code)) {
-    return WEATHER_DATA.get(code as WeatherCode)
+    const info = WEATHER_DATA.get(code as WeatherCode)
+    if (info)
+      return info
   }
-  return undefined
+
+  return { description: 'Неизвестно', iconName: 'CloudyIcon' }
 }
 
-export function getWeatherDescription(code: number): string {
-  return getWeatherInfo(code)?.description ?? 'Неизвестно'
+export function getWeatherDescription(code: number, windSpeed: number): string {
+  return getWeatherInfo(code, windSpeed).description
 }

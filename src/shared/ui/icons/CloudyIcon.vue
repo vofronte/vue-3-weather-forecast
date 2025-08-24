@@ -1,0 +1,3 @@
+<template>
+  <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="none" viewBox="0 0 60 60"><circle cx="44" cy="25" r="16" fill="#FFCB4C" fill-opacity=".8" /><path fill="url(#a)" fill-rule="evenodd" d="M12.036 36.092A16.23 16.23 0 0 1 12 35.001c0-8.837 7.163-16 16-16 6.449 0 12.007 3.815 14.54 9.312A11.95 11.95 0 0 1 48 27c6.627 0 12 5.373 12 12 0 6.628-5.373 12-12 12H8a8 8 0 1 1 4.036-14.909Z" clip-rule="evenodd" /><defs><linearGradient id="a" x1="-3.75" x2="73.25" y1="19.001" y2="51.001" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" /><stop offset="1" stop-color="#E0E0E0" /></linearGradient></defs></svg>
+</template>

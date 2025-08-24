@@ -32,9 +32,7 @@ function handleCitySelection(city: GeocodingResult) {
 <template>
   <div class="text-white font-sans p-4 bg-main-gradient min-h-screen w-full md:p-8">
     <div class="mx-auto flex flex-col gap-10 max-w-7xl md:gap-14">
-      <header
-        class="flex flex-col gap-4 items-center justify-center md:flex-row md:justify-between"
-      >
+      <header class="flex flex-col gap-4 items-center justify-center md:flex-row md:justify-between">
         <WeatherTabs />
         <CitySearch @select-city="handleCitySelection" />
       </header>
@@ -48,11 +46,9 @@ function handleCitySelection(city: GeocodingResult) {
       <main v-else-if="weather" class="flex flex-col gap-12">
         <!-- Блок с основной погодой -->
         <CurrentWeatherSummary
-          :city-name="selectedCity.name"
-          :temperature="weather.current.temperature_2m"
-          :weather-description="getWeatherDescription(weather.current.weather_code)"
-          :humidity="weather.current.relative_humidity_2m"
-          :wind-speed="weather.current.wind_speed_10m"
+          :city-name="selectedCity.name" :temperature="weather.current.temperature_2m"
+          :weather-description="getWeatherDescription(weather.current.weather_code, weather.current.wind_speed_10m)"
+          :humidity="weather.current.relative_humidity_2m" :wind-speed="weather.current.wind_speed_10m"
           :weather-code="weather.current.weather_code"
         />
 
@@ -63,39 +59,24 @@ function handleCitySelection(city: GeocodingResult) {
           </h2>
           <div class="gap-4 grid grid-cols-1 md:gap-9 lg:grid-cols-3 sm:grid-cols-2 xl:grid-cols-5">
             <WeatherCard
-              city="Москва"
-              :weather-code="0"
-              description="Облачно"
-              :temperature="24"
-              :humidity="80"
+              city="Москва" :weather-code="3" description="Облачно" :temperature="24" :humidity="80"
+              :wind-speed="4"
             />
             <WeatherCard
-              city="Новосибирск"
-              :weather-code="0"
-              description="Солнечно"
-              :temperature="34"
-              :humidity="80"
+              city="Новосибирск" :weather-code="0" description="Солнечно" :temperature="34" :humidity="80"
+              :wind-speed="2"
             />
             <WeatherCard
-              city="Краснодар"
-              :weather-code="0"
-              description="Ветрено"
-              :temperature="34"
-              :humidity="80"
+              city="Краснодар" :weather-code="1" description="Ветрено" :temperature="34" :humidity="80"
+              :wind-speed="8"
             />
             <WeatherCard
-              city="Красноярск"
-              :weather-code="0"
-              description="Ветрено"
-              :temperature="34"
-              :humidity="80"
+              city="Красноярск" :weather-code="61" description="Дождь" :temperature="18" :humidity="90"
+              :wind-speed="9"
             />
             <WeatherCard
-              city="Тула"
-              :weather-code="0"
-              description="Облачно"
-              :temperature="34"
-              :humidity="80"
+              city="Тула" :weather-code="3" description="Облачно" :temperature="22" :humidity="80"
+              :wind-speed="3"
             />
           </div>
         </section>

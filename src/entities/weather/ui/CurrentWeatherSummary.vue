@@ -22,7 +22,7 @@ defineProps<{
   </div>
   <section class="text-center flex flex-col gap-6 items-center md:text-left md:flex-row md:gap-14">
     <div class="flex gap-4 items-center">
-      <WeatherIcon :code="weatherCode" class="h-20 w-20 md:h-auto md:w-auto" />
+      <WeatherIcon :code="weatherCode" :wind-speed="windSpeed" class="h-20 w-20 md:h-auto md:w-auto" />
       <h1 class="text-7xl leading-[1.3] tracking-tightest font-semibold md:text-8xl">
         {{ Math.round(temperature) }}°
       </h1>

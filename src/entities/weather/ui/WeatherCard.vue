@@ -8,6 +8,7 @@ defineProps<{
   weatherCode: number
   temperature: number
   humidity: number
+  windSpeed: number
 }>()
 </script>
 
@@ -23,7 +24,7 @@ defineProps<{
         </p>
       </div>
 
-      <WeatherIcon :code="weatherCode" class="h-16 w-16" />
+      <WeatherIcon :code="weatherCode" :wind-speed="windSpeed" class="h-16 w-16" />
 
       <h1 class="text-5xl leading-[1.3] tracking-tightest font-semibold">
         {{ Math.round(temperature) }}°

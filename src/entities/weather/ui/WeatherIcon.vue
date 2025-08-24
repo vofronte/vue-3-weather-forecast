@@ -4,14 +4,14 @@ import { getWeatherInfo } from '@/entities/weather/lib/weatherCodes'
 
 const props = defineProps<{
   code: number
+  windSpeed: number
 }>()
 
-const iconName = computed(() => getWeatherInfo(props.code)?.iconName)
+const iconName = computed(() => getWeatherInfo(props.code, props.windSpeed)?.iconName)
 
 const iconComponent = computed(() => {
-  if (!iconName.value) {
+  if (!iconName.value)
     return null
-  }
 
   return defineAsyncComponent(() => import(`@/shared/ui/icons/${iconName.value}.vue`))
 })
