@@ -11,29 +11,30 @@
     "commit": "cz"
   },
   "dependencies": {
-    "vue": "^3.5.18"
+    "vue": "catalog:"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^5.2.1",
-    "@commitlint/cli": "^19.8.1",
-    "@commitlint/config-conventional": "^19.8.1",
-    "@types/node": "^24.3.0",
-    "@unocss/preset-attributify": "^66.4.2",
-    "@unocss/preset-wind4": "^66.4.2",
-    "@vitejs/plugin-vue": "^6.0.1",
-    "@vue/tsconfig": "^0.8.1",
-    "commitizen": "^4.3.1",
-    "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^9.33.0",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.1.5",
-    "typescript": "~5.8.3",
-    "unocss": "^66.4.2",
-    "vite": "^7.1.2",
-    "vue-tsc": "^3.0.5"
+    "@antfu/eslint-config": "catalog:",
+    "@commitlint/cli": "catalog:",
+    "@commitlint/config-conventional": "catalog:",
+    "@types/node": "catalog:",
+    "@unocss/eslint-plugin": "catalog:",
+    "@unocss/preset-attributify": "catalog:",
+    "@unocss/preset-wind4": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
+    "@vue/tsconfig": "catalog:",
+    "commitizen": "catalog:",
+    "cz-conventional-changelog": "catalog:",
+    "eslint": "catalog:",
+    "husky": "catalog:",
+    "lint-staged": "catalog:",
+    "typescript": "catalog:",
+    "unocss": "catalog:",
+    "vite": "catalog:",
+    "vue-tsc": "catalog:"
   },
   "lint-staged": {
-    "*": "eslint --fix"
+    "*.{js,ts,vue}": "eslint --fix"
   },
   "commitlint": {
     "extends": [

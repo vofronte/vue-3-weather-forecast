@@ -1,0 +1,36 @@
+# eslint-disable yaml/sort-keys
+# pnpm-workspace.yaml
+packages:
+  - .
+
+catalog:
+  # Core Dependencies
+  vue: ^3.5.19
+
+  # Build & Dev Tools
+  vite: ^7.1.3
+  typescript: ~5.9.2
+  '@vitejs/plugin-vue': ^6.0.1
+  '@types/node': ^24.3.0
+  vue-tsc: ^3.0.6
+
+  # Linting & Formatting
+  eslint: ^9.33.0
+  '@antfu/eslint-config': ^5.2.1
+  lint-staged: ^16.1.5
+
+  # Styling (UnoCSS)
+  unocss: ^66.4.2
+  '@unocss/eslint-plugin': ^66.4.2
+  '@unocss/preset-attributify': ^66.4.2
+  '@unocss/preset-wind4': ^66.4.2
+
+  # Commit & Git Hooks
+  husky: ^9.1.7
+  commitizen: ^4.3.1
+  cz-conventional-changelog: ^3.3.0
+  '@commitlint/cli': ^19.8.1
+  '@commitlint/config-conventional': ^19.8.1
+
+  # Vue Specific
+  '@vue/tsconfig': ^0.8.1
