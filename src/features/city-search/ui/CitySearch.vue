@@ -70,7 +70,7 @@ function selectCity(city: GeocodingResult) {
     <!-- Состояние 1: Отображение текущего города -->
     <button
       v-if="!isEditing" type="button"
-      class="px-4 py-2.5 rounded-lg bg-white/10 flex gap-2.5 w-full items-center justify-between" @click="startEditing"
+      class="px-4 py-2.5 rounded-lg bg-white/10 flex gap-2.5 w-full cursor-pointer items-center justify-between" @click="startEditing"
     >
       <span class="text-[22px] text-white leading-[1.2] tracking-tightest font-medium">{{ cityName }}</span>
       <ArrowDownIcon />

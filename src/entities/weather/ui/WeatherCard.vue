@@ -14,7 +14,7 @@ defineProps<{
 
 <template>
   <AppCard class="p-6">
-    <div class="flex flex-col gap-4 items-center">
+    <div class="flex flex-col gap-4 h-full items-center">
       <div class="flex flex-col gap-2 items-center self-stretch">
         <h3 class="text-2xl leading-[1.2] tracking-tightest font-medium text-center">
           {{ city }}
@@ -24,15 +24,17 @@ defineProps<{
         </p>
       </div>
 
-      <WeatherIcon :code="weatherCode" :wind-speed="windSpeed" class="h-16 w-16" />
+      <div class="mt-auto flex flex-col gap-4 items-center">
+        <WeatherIcon :code="weatherCode" :wind-speed="windSpeed" class="size-16" />
 
-      <h3 class="text-5xl leading-[1.3] tracking-tightest font-semibold">
-        {{ Math.round(temperature) }}°
-      </h3>
+        <h3 class="text-5xl leading-[1.3] tracking-tightest font-semibold">
+          {{ Math.round(temperature) }}°
+        </h3>
 
-      <p class="text-lg leading-[1.2] tracking-tightest font-medium">
-        Влажность: {{ Math.round(humidity) }}%
-      </p>
+        <p class="text-lg leading-[1.2] tracking-tightest font-medium">
+          Влажность: {{ Math.round(humidity) }}%
+        </p>
+      </div>
     </div>
   </AppCard>
 </template>
