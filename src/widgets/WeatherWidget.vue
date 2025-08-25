@@ -5,12 +5,18 @@ import { getWeatherDescription } from '@/entities/weather/lib/weatherCodes'
 import { useWeather } from '@/entities/weather/model/useWeather'
 import CurrentWeatherSummary from '@/entities/weather/ui/CurrentWeatherSummary.vue'
 import HourlyForecast from '@/entities/weather/ui/HourlyForecast.vue'
-import WeatherCard from '@/entities/weather/ui/WeatherCard.vue'
 import WeeklyForecast from '@/entities/weather/ui/WeeklyForecast.vue'
+import { POPULAR_CITIES } from '@/shared/config/cities'
+import Skeleton from '@/shared/ui/skeletons/Skeleton.vue'
+import PopularCityCard from '@/widgets/PopularCityCard.vue'
 
 const props = defineProps<{
   city: GeocodingResult
   activeTab: 'today' | 'week'
+}>()
+
+const emit = defineEmits<{
+  (e: 'selectCity', city: GeocodingResult): void
 }>()
 
 const { weather, error, fetchWeather } = useWeather()
@@ -51,26 +57,16 @@ if (error.value)
         Погода в популярных городах
       </h2>
       <div class="gap-4 grid grid-cols-1 md:gap-9 lg:grid-cols-3 sm:grid-cols-2 xl:grid-cols-5">
-        <WeatherCard
-          city="Москва" :weather-code="3" description="Облачно" :temperature="24" :humidity="80"
-          :wind-speed="4"
-        />
-        <WeatherCard
-          city="Новосибирск" :weather-code="0" description="Солнечно" :temperature="34" :humidity="80"
-          :wind-speed="2"
-        />
-        <WeatherCard
-          city="Краснодар" :weather-code="1" description="Ветрено" :temperature="34" :humidity="80"
-          :wind-speed="8"
-        />
-        <WeatherCard
-          city="Красноярск" :weather-code="61" description="Дождь" :temperature="18" :humidity="90"
-          :wind-speed="9"
-        />
-        <WeatherCard
-          city="Тула" :weather-code="3" description="Облачно" :temperature="22" :humidity="80"
-          :wind-speed="3"
-        />
+        <Suspense v-for="popularCity in POPULAR_CITIES" :key="popularCity.id">
+          <template #default>
+            <PopularCityCard :city="popularCity" @select-city="emit('selectCity', $event)" />
+          </template>
+          <template #fallback>
+            <div class="p-6 text-center rounded-lg bg-card-gradient flex min-h-[226px] items-center justify-center">
+              <Skeleton height="202px" width="100%" />
+            </div>
+          </template>
+        </Suspense>
       </div>
     </section>
   </div>

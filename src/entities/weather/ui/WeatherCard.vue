@@ -31,7 +31,7 @@ defineProps<{
       </h3>
 
       <p class="text-lg leading-[1.2] tracking-tightest font-medium">
-        Влажность: {{ humidity }}%
+        Влажность: {{ Math.round(humidity) }}%
       </p>
     </div>
   </AppCard>

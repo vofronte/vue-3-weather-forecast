@@ -40,14 +40,13 @@ function handleCitySelection(city: GeocodingResult) {
         <CitySearch @select-city="handleCitySelection" />
       </header>
 
-      <main v-if="pageError" class="text-xl text-red-400 text-center">
-        Не удалось загрузить данные о погоде: {{ pageError.message }}
-      </main>
-
-      <main v-else>
+      <main>
         <Suspense>
           <template #default>
-            <WeatherWidget :key="selectedCity.id" :city="selectedCity" :active-tab="activeTab" />
+            <WeatherWidget
+              :key="selectedCity.id" :city="selectedCity" :active-tab="activeTab"
+              @select-city="handleCitySelection"
+            />
           </template>
 
           <template #fallback>
