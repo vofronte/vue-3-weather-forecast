@@ -47,19 +47,20 @@ watch(
       </p>
     </div>
 
-    <!-- Блок для вкладки "Главная" -->
-    <div v-if="activeTab === 'today'" class="gap-8 grid grid-cols-1 lg:gap-14 lg:grid-cols-2">
-      <CurrentWeatherSummary
-        :temperature="weather.current.temperature_2m"
-        :weather-description="getWeatherDescription(weather.current.weather_code, weather.current.wind_speed_10m)" :humidity="weather.current.relative_humidity_2m"
-        :wind-speed="weather.current.wind_speed_10m" :weather-code="weather.current.weather_code"
-        :loading="isLoading"
-      />
-      <HourlyForecast :hourly="weather.hourly as Readonly<HourlyWeather>" />
-    </div>
+    <!-- Блок для вкладки "Главная" и "Неделя" с переходом -->
+    <Transition name="slide-horizontal" mode="out-in">
+      <div v-if="activeTab === 'today'" key="today" class="gap-8 grid grid-cols-1 lg:gap-14 lg:grid-cols-2">
+        <CurrentWeatherSummary
+          :temperature="weather.current.temperature_2m"
+          :weather-description="getWeatherDescription(weather.current.weather_code, weather.current.wind_speed_10m)"
+          :humidity="weather.current.relative_humidity_2m" :wind-speed="weather.current.wind_speed_10m"
+          :weather-code="weather.current.weather_code" :loading="isLoading"
+        />
+        <HourlyForecast :hourly="weather.hourly as Readonly<HourlyWeather>" />
+      </div>
 
-    <!-- Блок для вкладки "Неделя" -->
-    <WeeklyForecast v-if="activeTab === 'week'" :daily="weather.daily as Readonly<DailyWeather>" />
+      <WeeklyForecast v-else key="week" :daily="weather.daily as Readonly<DailyWeather>" />
+    </Transition>
 
     <!-- Блок "Недавно просмотренные" -->
     <Transition name="fade-slide">
@@ -124,5 +125,21 @@ watch(
 .fade-slide-enter-active,
 .fade-slide-leave-active {
   transition: all 0.3s ease-in-out;
+}
+
+/* Анимация для смены табов */
+.slide-horizontal-enter-from {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.slide-horizontal-leave-to {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.slide-horizontal-enter-active,
+.slide-horizontal-leave-active {
+  transition: all 0.25s ease-in-out;
 }
 </style>

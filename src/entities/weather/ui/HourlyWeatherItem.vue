@@ -28,7 +28,7 @@ function timeOfDay(dateString: string) {
 </script>
 
 <template>
-  <div class="py-2 border-b border-white/10 last:border-none">
+  <div class="py-2 border-b border-white/10 lg:pl-4 last:border-none">
     <div class="flex flex-col lg:gap-x-4 lg:grid lg:grid-cols-[2fr_2fr_1fr_1fr] lg:items-center">
       <div class="flex w-full items-center justify-between lg:gap-x-4">
         <!-- Время -->
