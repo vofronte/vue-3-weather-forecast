@@ -4,6 +4,8 @@ A modern, responsive Single Page Application built with Vue 3 and TypeScript tha
 
 **Live Demo:** [https://vofronte.github.io/vue-3-weather-forecast/](https://vofronte.github.io/vue-3-weather-forecast/)
 
+<img width="1647" height="864" alt="image" src="https://github.com/user-attachments/assets/ae46b2b6-4ad5-4390-846f-eeffeca12485" />
+
 [![Build and Deploy](https://github.com/vofronte/vue-3-weather-forecast/actions/workflows/deploy.yml/badge.svg)](https://github.com/vofronte/vue-3-weather-forecast/actions/workflows/deploy.yml)
 
 ## 🚀 Features
