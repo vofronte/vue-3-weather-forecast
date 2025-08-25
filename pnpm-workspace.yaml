@@ -35,3 +35,8 @@ catalog:
 
   # Vue Specific
   '@vue/tsconfig': ^0.8.1
+
+  # Testing
+  vitest: ^3.2.4
+  '@vue/test-utils': ^2.4.6
+  jsdom: ^26.1.0

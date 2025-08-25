@@ -8,7 +8,8 @@
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
     "prepare": "husky",
-    "commit": "cz"
+    "commit": "cz",
+    "test": "vitest"
   },
   "dependencies": {
     "openmeteo": "catalog:",
@@ -23,15 +24,18 @@
     "@unocss/preset-web-fonts": "catalog:",
     "@unocss/preset-wind4": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
+    "@vue/test-utils": "catalog:",
     "@vue/tsconfig": "catalog:",
     "commitizen": "catalog:",
     "cz-conventional-changelog": "catalog:",
     "eslint": "catalog:",
     "husky": "catalog:",
+    "jsdom": "catalog:",
     "lint-staged": "catalog:",
     "typescript": "catalog:",
     "unocss": "catalog:",
     "vite": "catalog:",
+    "vitest": "catalog:",
     "vue-tsc": "catalog:"
   },
   "lint-staged": {
