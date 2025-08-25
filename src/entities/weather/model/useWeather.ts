@@ -2,15 +2,27 @@ import type { Weather } from './types'
 import { fetchWeatherApi } from 'openmeteo'
 import { readonly, ref } from 'vue'
 
+// Создаём кэш на уровне модуля. Он будет общим для всех вызовов useWeather().
+const cache = new Map<string, { data: Weather, timestamp: number }>()
+const CACHE_TTL = 10 * 60 * 1000 // 10 минут в миллисекундах
+
 export function useWeather() {
   const weather = ref<Weather | null>(null)
   const isLoading = ref(false)
   const error = ref<Error | null>(null)
 
   const fetchWeather = async (latitude: number, longitude: number) => {
+    const cacheKey = `${latitude.toFixed(4)},${longitude.toFixed(4)}`
+    const cachedEntry = cache.get(cacheKey)
+
+    // Проверяем, есть ли действительная запись в кэше
+    if (cachedEntry && (Date.now() - cachedEntry.timestamp < CACHE_TTL)) {
+      weather.value = cachedEntry.data
+      return
+    }
+
     isLoading.value = true
     error.value = null
-    weather.value = null
 
     try {
       const params = {
@@ -24,15 +36,12 @@ export function useWeather() {
       const url = 'https://api.open-meteo.com/v1/forecast'
       const responses = await fetchWeatherApi(url, params)
 
-      // Process first location. Add a for-loop for multiple locations or weather models
       const response = responses[0]
 
-      // Guard against empty response
       if (!response) {
         throw new Error('Weather data not found for the specified location.')
       }
 
-      // Attributes for timezone and location
       const utcOffsetSeconds = response.utcOffsetSeconds()
       const timezone = response.timezone()!
       const timezoneAbbreviation = response.timezoneAbbreviation()!
@@ -43,11 +52,11 @@ export function useWeather() {
       const hourly = response.hourly()!
       const daily = response.daily()!
 
-      // Helper function to form time ranges
+      // Вспомогательная функция для формирования диапазонов времени
       const range = (start: number, stop: number, step: number) =>
         Array.from({ length: (stop - start) / step }, (_, i) => start + i * step)
 
-      // Note: The order of weather variables in the URL query and the indices below need to match!
+      // Примечание: Порядок переменных погоды в запросе URL и индексы ниже должны совпадать!
       const weatherData: Weather = {
         current: {
           time: new Date((Number(current.time()) + utcOffsetSeconds) * 1000).toISOString(),
@@ -74,7 +83,6 @@ export function useWeather() {
           temperature_2m_max: Array.from(daily.variables(1)!.valuesArray()!),
           temperature_2m_min: Array.from(daily.variables(2)!.valuesArray()!),
         },
-        // Raw data from the API response for context
         latitude: latitudeResponse,
         longitude: longitudeResponse,
         utc_offset_seconds: utcOffsetSeconds,
@@ -105,6 +113,7 @@ export function useWeather() {
       }
 
       weather.value = weatherData
+      cache.set(cacheKey, { data: weatherData, timestamp: Date.now() })
     }
     catch (e) {
       if (e instanceof Error)

@@ -1,34 +1,43 @@
 <script setup lang="ts">
 import type { DailyWeather, HourlyWeather } from '@/entities/weather/model/types'
 import type { GeocodingResult } from '@/features/city-search/model/types'
+import { watch } from 'vue'
 import { getWeatherDescription } from '@/entities/weather/lib/weatherCodes'
 import { useWeather } from '@/entities/weather/model/useWeather'
 import CurrentWeatherSummary from '@/entities/weather/ui/CurrentWeatherSummary.vue'
 import HourlyForecast from '@/entities/weather/ui/HourlyForecast.vue'
 import WeeklyForecast from '@/entities/weather/ui/WeeklyForecast.vue'
-import { POPULAR_CITIES } from '@/shared/config/cities'
 import Skeleton from '@/shared/ui/skeletons/Skeleton.vue'
 import PopularCityCard from '@/widgets/PopularCityCard.vue'
+import WeatherWidgetSkeleton from './WeatherWidgetSkeleton.vue'
 
 const props = defineProps<{
   city: GeocodingResult
   activeTab: 'today' | 'week'
+  popularCities: GeocodingResult[]
+  recentCities: GeocodingResult[]
 }>()
 
 const emit = defineEmits<{
   (e: 'selectCity', city: GeocodingResult): void
 }>()
 
-const { weather, error, fetchWeather } = useWeather()
+const { weather, isLoading, error, fetchWeather } = useWeather()
 
-await fetchWeather(props.city.latitude, props.city.longitude)
-
-if (error.value)
-  throw error.value
+watch(
+  () => props.city,
+  (newCity) => {
+    if (newCity)
+      fetchWeather(newCity.latitude, newCity.longitude)
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
-  <div v-if="weather" class="flex flex-col gap-8 md:gap-12">
+  <WeatherWidgetSkeleton v-if="isLoading && !weather" />
+
+  <div v-else-if="weather" class="flex flex-col gap-10 md:gap-14">
     <div class="text-center md:text-left">
       <h1 class="text-2xl leading-[1.3] tracking-tightest font-semibold md:text-4xl">
         Погода в городе {{ city.name }}
@@ -42,9 +51,9 @@ if (error.value)
     <div v-if="activeTab === 'today'" class="gap-8 grid grid-cols-1 lg:gap-14 lg:grid-cols-2">
       <CurrentWeatherSummary
         :temperature="weather.current.temperature_2m"
-        :weather-description="getWeatherDescription(weather.current.weather_code, weather.current.wind_speed_10m)"
-        :humidity="weather.current.relative_humidity_2m" :wind-speed="weather.current.wind_speed_10m"
-        :weather-code="weather.current.weather_code"
+        :weather-description="getWeatherDescription(weather.current.weather_code, weather.current.wind_speed_10m)" :humidity="weather.current.relative_humidity_2m"
+        :wind-speed="weather.current.wind_speed_10m" :weather-code="weather.current.weather_code"
+        :loading="isLoading"
       />
       <HourlyForecast :hourly="weather.hourly as Readonly<HourlyWeather>" />
     </div>
@@ -52,22 +61,68 @@ if (error.value)
     <!-- Блок для вкладки "Неделя" -->
     <WeeklyForecast v-if="activeTab === 'week'" :daily="weather.daily as Readonly<DailyWeather>" />
 
-    <section class="flex flex-col gap-4">
-      <h2 class="text-2xl leading-[1.3] tracking-tightest font-semibold text-center md:text-[36px] md:text-left">
-        Погода в популярных городах
-      </h2>
-      <div class="gap-4 grid grid-cols-1 md:gap-9 lg:grid-cols-3 sm:grid-cols-2 xl:grid-cols-5">
-        <Suspense v-for="popularCity in POPULAR_CITIES" :key="popularCity.id">
-          <template #default>
-            <PopularCityCard :city="popularCity" @select-city="emit('selectCity', $event)" />
-          </template>
-          <template #fallback>
-            <div class="p-6 text-center rounded-lg bg-card-gradient flex min-h-[226px] items-center justify-center">
-              <Skeleton height="202px" width="100%" />
-            </div>
-          </template>
-        </Suspense>
-      </div>
-    </section>
+    <!-- Блок "Недавно просмотренные" -->
+    <Transition name="fade-slide">
+      <section v-if="recentCities.length > 0" class="flex flex-col gap-4">
+        <h2 class="text-2xl leading-[1.3] tracking-tightest font-semibold text-center md:text-[36px] md:text-left">
+          Недавно просмотренные
+        </h2>
+        <div class="gap-4 grid grid-cols-1 md:gap-9 lg:grid-cols-3 sm:grid-cols-2 xl:grid-cols-5">
+          <Suspense v-for="cityItem in recentCities" :key="cityItem.id">
+            <template #default>
+              <PopularCityCard :city="cityItem" @select-city="emit('selectCity', $event)" />
+            </template>
+            <template #fallback>
+              <div class="p-6 text-center rounded-lg bg-card-gradient flex min-h-[226px] items-center justify-center">
+                <Skeleton height="202px" width="100%" />
+              </div>
+            </template>
+          </Suspense>
+        </div>
+      </section>
+    </Transition>
+
+    <!-- Блок "Популярные города" -->
+    <Transition name="fade-slide">
+      <section v-if="popularCities.length > 0" class="flex flex-col gap-4">
+        <h2 class="text-2xl leading-[1.3] tracking-tightest font-semibold text-center md:text-[36px] md:text-left">
+          Популярные города
+        </h2>
+        <div class="gap-4 grid grid-cols-1 md:gap-9 lg:grid-cols-3 sm:grid-cols-2 xl:grid-cols-5">
+          <Suspense v-for="cityItem in popularCities" :key="cityItem.id">
+            <template #default>
+              <PopularCityCard :city="cityItem" @select-city="emit('selectCity', $event)" />
+            </template>
+            <template #fallback>
+              <div class="p-6 text-center rounded-lg bg-card-gradient flex min-h-[226px] items-center justify-center">
+                <Skeleton height="202px" width="100%" />
+              </div>
+            </template>
+          </Suspense>
+        </div>
+      </section>
+    </Transition>
+  </div>
+  <div v-else-if="error" class="text-red-400 text-center">
+    Не удалось загрузить данные: {{ error.message }}
   </div>
 </template>
+
+<style>
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-slide-enter-to,
+.fade-slide-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: all 0.3s ease-in-out;
+}
+</style>

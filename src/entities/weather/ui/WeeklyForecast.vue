@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import type { DailyWeather } from '../model/types'
+import { computed } from 'vue'
 import DailyWeatherCard from './DailyWeatherCard.vue'
 
 const props = defineProps<{
   daily: DailyWeather
 }>()
 
-const forecastDays = props.daily.time.map((time, index) => ({
+const forecastDays = computed(() => props.daily.time.map((time, index) => ({
   time,
   weather_code: props.daily.weather_code[index]!,
   temperature_2m_max: props.daily.temperature_2m_max[index]!,
   temperature_2m_min: props.daily.temperature_2m_min[index]!,
-}))
+})))
 </script>
 
 <template>
