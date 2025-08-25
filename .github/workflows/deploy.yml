@@ -1,0 +1,57 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Запускаем воркфлоу при каждом пуше в основную ветку
+  push:
+    branches:
+      - main
+
+# Предоставляем воркфлоу необходимые права для деплоя
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Забираем код из репозитория
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      # 2. Настраиваем пакетный менеджер pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      # 3. Настраиваем Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+
+      # 4. Устанавливаем зависимости
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # 5. Собираем проект
+      - name: Build project
+        run: pnpm build --base="/${GITHUB_REPOSITORY#*/}/"
+
+      # 6. Настраиваем GitHub Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # 7. Загружаем артефакт сборки (папку dist)
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./dist
+
+      # 8. Деплоим артефакт на GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
