@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { DailyWeather, HourlyWeather } from '@/entities/weather/model/types'
 import type { GeocodingResult } from '@/features/city-search/model/types'
-import { watch } from 'vue'
 import { getWeatherDescription } from '@/entities/weather/lib/weatherCodes'
 import { useWeather } from '@/entities/weather/model/useWeather'
 import CurrentWeatherSummary from '@/entities/weather/ui/CurrentWeatherSummary.vue'
@@ -9,7 +8,6 @@ import HourlyForecast from '@/entities/weather/ui/HourlyForecast.vue'
 import WeeklyForecast from '@/entities/weather/ui/WeeklyForecast.vue'
 import Skeleton from '@/shared/ui/skeletons/Skeleton.vue'
 import PopularCityCard from '@/widgets/PopularCityCard.vue'
-import WeatherWidgetSkeleton from './WeatherWidgetSkeleton.vue'
 
 const props = defineProps<{
   city: GeocodingResult
@@ -22,22 +20,13 @@ const emit = defineEmits<{
   (e: 'selectCity', city: GeocodingResult): void
 }>()
 
-const { weather, isLoading, error, fetchWeather } = useWeather()
+const { weather, error, fetchWeather } = useWeather()
 
-watch(
-  () => props.city,
-  (newCity) => {
-    if (newCity)
-      fetchWeather(newCity.latitude, newCity.longitude)
-  },
-  { immediate: true },
-)
+await fetchWeather(props.city.latitude, props.city.longitude)
 </script>
 
 <template>
-  <WeatherWidgetSkeleton v-if="isLoading && !weather" />
-
-  <div v-else-if="weather" class="flex flex-col gap-10 md:gap-14">
+  <div v-if="weather" :key="city.id" class="flex flex-col gap-10 md:gap-14">
     <div class="text-center md:text-left">
       <h1 class="text-2xl leading-[1.3] tracking-tightest font-semibold md:text-4xl">
         Погода в городе {{ city.name }}
@@ -49,17 +38,17 @@ watch(
 
     <!-- Блок для вкладки "Главная" и "Неделя" с переходом -->
     <Transition name="slide-horizontal" mode="out-in">
-      <div v-if="activeTab === 'today'" key="today" class="gap-8 grid grid-cols-1 lg:gap-14 lg:grid-cols-2">
+      <div v-if="activeTab === 'today'" class="gap-8 grid grid-cols-1 lg:gap-14 lg:grid-cols-2">
         <CurrentWeatherSummary
           :temperature="weather.current.temperature_2m"
           :weather-description="getWeatherDescription(weather.current.weather_code, weather.current.wind_speed_10m)"
           :humidity="weather.current.relative_humidity_2m" :wind-speed="weather.current.wind_speed_10m"
-          :weather-code="weather.current.weather_code" :loading="isLoading"
+          :weather-code="weather.current.weather_code"
         />
         <HourlyForecast :hourly="weather.hourly as Readonly<HourlyWeather>" />
       </div>
 
-      <WeeklyForecast v-else key="week" :daily="weather.daily as Readonly<DailyWeather>" />
+      <WeeklyForecast v-else :daily="weather.daily as Readonly<DailyWeather>" />
     </Transition>
 
     <!-- Блок "Недавно просмотренные" -->

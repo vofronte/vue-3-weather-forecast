@@ -60,8 +60,9 @@ function handleCitySelection(city: GeocodingResult) {
         <Suspense>
           <template #default>
             <WeatherWidget
-              :city="selectedCity" :active-tab="activeTab" :popular-cities="popularCitiesForDisplay"
-              :recent-cities="recentCitiesForDisplay" @select-city="handleCitySelection"
+              :key="selectedCity.id" :city="selectedCity" :active-tab="activeTab"
+              :popular-cities="popularCitiesForDisplay" :recent-cities="recentCitiesForDisplay"
+              @select-city="handleCitySelection"
             />
           </template>
           <template #fallback>
