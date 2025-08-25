@@ -27,9 +27,9 @@ defineProps<{
       <div class="mt-auto flex flex-col gap-4 items-center">
         <WeatherIcon :code="weatherCode" :wind-speed="windSpeed" class="size-16" />
 
-        <h3 class="text-5xl leading-[1.3] tracking-tightest font-semibold">
+        <p class="text-5xl leading-[1.3] tracking-tightest font-semibold">
           {{ Math.round(temperature) }}°
-        </h3>
+        </p>
 
         <p class="text-lg leading-[1.2] tracking-tightest font-medium">
           Влажность: {{ Math.round(humidity) }}%

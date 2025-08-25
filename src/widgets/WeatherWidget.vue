@@ -38,7 +38,13 @@ await fetchWeather(props.city.latitude, props.city.longitude)
 
     <!-- Блок для вкладки "Главная" и "Неделя" с переходом -->
     <Transition name="slide-horizontal" mode="out-in">
-      <div v-if="activeTab === 'today'" class="gap-8 grid grid-cols-1 lg:gap-14 lg:grid-cols-2">
+      <div
+        v-if="activeTab === 'today'"
+        id="tabpanel-today"
+        role="tabpanel"
+        aria-labelledby="tab-today"
+        class="gap-8 grid grid-cols-1 lg:gap-14 lg:grid-cols-2"
+      >
         <CurrentWeatherSummary
           :temperature="weather.current.temperature_2m"
           :weather-description="getWeatherDescription(weather.current.weather_code, weather.current.wind_speed_10m)"
@@ -48,7 +54,13 @@ await fetchWeather(props.city.latitude, props.city.longitude)
         <HourlyForecast :hourly="weather.hourly as Readonly<HourlyWeather>" />
       </div>
 
-      <WeeklyForecast v-else :daily="weather.daily as Readonly<DailyWeather>" />
+      <WeeklyForecast
+        v-else
+        id="tabpanel-week"
+        role="tabpanel"
+        aria-labelledby="tab-week"
+        :daily="weather.daily as Readonly<DailyWeather>"
+      />
     </Transition>
 
     <!-- Блок "Недавно просмотренные" -->

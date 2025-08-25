@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useBreakpoint } from '@/shared/lib/useBreakpoint'
 import { getWeatherDescription } from '../lib/weatherCodes'
 import WeatherIcon from './WeatherIcon.vue'
@@ -15,6 +16,10 @@ const { isDesktop } = useBreakpoint()
 
 const formattedTime = new Date(props.time).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
 
+const summary = computed(
+  () => `В ${formattedTime}, ${Math.round(props.temperature)} градусов, ${getWeatherDescription(props.weatherCode, props.windSpeed)}`,
+)
+
 function timeOfDay(dateString: string) {
   const hour = new Date(dateString).getHours()
   if (hour >= 22 || hour < 5)
@@ -28,7 +33,7 @@ function timeOfDay(dateString: string) {
 </script>
 
 <template>
-  <div class="py-2 border-b border-white/10 lg:pl-4 last:border-none">
+  <li class="py-2 border-b border-white/10 lg:pl-4 last:border-none" :aria-label="summary">
     <div class="flex flex-col lg:gap-x-4 lg:grid lg:grid-cols-[2fr_2fr_1fr_1fr] lg:items-center">
       <div class="flex w-full items-center justify-between lg:gap-x-4">
         <!-- Время -->
@@ -49,7 +54,8 @@ function timeOfDay(dateString: string) {
         <div class="flex gap-3 col-span-3 items-center justify-center lg:col-span-1 lg:justify-start lg:order-3">
           <!-- Иконка для десктопа -->
           <WeatherIcon v-if="isDesktop" :code="weatherCode" :wind-speed="windSpeed" class="shrink-0 size-15" />
-          <span class="text-lg leading-[1.2] tracking-tightest font-normal lg:text-left">{{ getWeatherDescription(weatherCode, windSpeed) }}</span>
+          <span class="text-lg leading-[1.2] tracking-tightest font-normal lg:text-left">{{
+            getWeatherDescription(weatherCode, windSpeed) }}</span>
         </div>
         <!-- Ветер -->
         <div class="text-left flex flex-col lg:text-center lg:order-4">
@@ -63,5 +69,5 @@ function timeOfDay(dateString: string) {
         </div>
       </div>
     </div>
-  </div>
+  </li>
 </template>

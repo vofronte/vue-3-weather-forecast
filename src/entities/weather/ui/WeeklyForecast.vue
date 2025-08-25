@@ -16,7 +16,7 @@ const forecastDays = computed(() => props.daily.time.map((time, index) => ({
 </script>
 
 <template>
-  <div class="gap-x-5 gap-y-4 grid grid-cols-2 lg:grid-cols-7 sm:grid-cols-4">
+  <ul class="m-0 p-0 list-none gap-x-5 gap-y-4 grid grid-cols-2 lg:grid-cols-7 sm:grid-cols-4">
     <DailyWeatherCard
       v-for="day in forecastDays"
       :key="day.time"
@@ -25,5 +25,5 @@ const forecastDays = computed(() => props.daily.time.map((time, index) => ({
       :temperature-max="day.temperature_2m_max"
       :temperature-min="day.temperature_2m_min"
     />
-  </div>
+  </ul>
 </template>

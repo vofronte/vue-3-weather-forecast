@@ -20,11 +20,15 @@ function selectTab(tabId: Tab) {
 </script>
 
 <template>
-  <div class="rounded-lg bg-white/10 flex w-full md:w-auto">
+  <div class="rounded-lg bg-white/10 flex w-full md:w-auto" role="tablist" aria-label="Выбор периода прогноза">
     <button
       v-for="tab in tabs"
+      :id="`tab-${tab.id}`"
       :key="tab.id"
       type="button"
+      role="tab"
+      :aria-selected="modelValue === tab.id"
+      :aria-controls="`tabpanel-${tab.id}`"
       class="text-[22px] leading-[1.2] tracking-tightest font-medium px-4 py-2.5 w-1/2 cursor-pointer transition-colors duration-300 md:w-auto"
       :class="{
         'text-white': modelValue === tab.id,

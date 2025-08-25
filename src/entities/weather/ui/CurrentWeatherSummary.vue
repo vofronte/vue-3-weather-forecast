@@ -21,11 +21,11 @@ defineProps<{
       >
         <WeatherIcon :code="weatherCode!" :wind-speed="windSpeed!" class="size-20 md:size-[120px]" />
       </Skeleton>
-      <h1 class="text-7xl leading-[1.3] tracking-tightest font-semibold md:text-8xl">
+      <p class="text-7xl leading-[1.3] tracking-tightest font-semibold md:text-8xl">
         <Skeleton :loading="loading || temperature === undefined" width="120px">
           {{ Math.round(temperature!) }}°
         </Skeleton>
-      </h1>
+      </p>
     </div>
     <div class="text-center flex flex-col gap-2 md:text-left">
       <div class="text-xl text-white tracking-tightest mt-2 md:text-2xl">

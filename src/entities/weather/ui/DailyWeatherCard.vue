@@ -16,7 +16,7 @@ function dayOfWeek(dateString: string) {
 </script>
 
 <template>
-  <div class="py-1 flex flex-col h-[120px] items-center justify-between">
+  <li class="py-1 flex flex-col h-[120px] items-center justify-between">
     <p class="text-lg tracking-tightest font-normal">
       {{ dayOfWeek(date) }}
     </p>
@@ -24,5 +24,5 @@ function dayOfWeek(dateString: string) {
     <p class="text-lg tracking-tightest">
       {{ Math.round(temperatureMax) }}° / {{ Math.round(temperatureMin) }}°
     </p>
-  </div>
+  </li>
 </template>

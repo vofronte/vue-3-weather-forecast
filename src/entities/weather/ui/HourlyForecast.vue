@@ -25,15 +25,11 @@ const forecastHours = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <ul class="m-0 p-0 list-none" v-bind="$attrs">
     <HourlyWeatherItem
-      v-for="hour in forecastHours"
-      :key="hour.time"
-      :time="hour.time"
-      :weather-code="hour.weather_code"
-      :temperature="hour.temperature_2m"
-      :wind-speed="hour.wind_speed_10m"
+      v-for="hour in forecastHours" :key="hour.time" :time="hour.time"
+      :weather-code="hour.weather_code" :temperature="hour.temperature_2m" :wind-speed="hour.wind_speed_10m"
       :humidity="hour.relative_humidity_2m"
     />
-  </div>
+  </ul>
 </template>

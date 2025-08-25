@@ -13,15 +13,21 @@ const emit = defineEmits<{
 }>()
 
 const { weather, error, fetchWeather } = useWeather()
-
 await fetchWeather(props.city.latitude, props.city.longitude)
+
+function handleClick() {
+  emit('selectCity', props.city)
+}
 
 if (error.value)
   throw error.value
 </script>
 
 <template>
-  <div v-if="weather" class="h-full cursor-pointer" @click="emit('selectCity', city)">
+  <button
+    v-if="weather" type="button" class="text-left h-full w-full cursor-pointer"
+    :aria-label="`Посмотреть погоду в городе ${city.name}`" @click="handleClick"
+  >
     <WeatherCard
       :city="city.name"
       :weather-code="weather.current.weather_code"
@@ -31,5 +37,5 @@ if (error.value)
       :wind-speed="weather.current.wind_speed_10m"
       class="h-full"
     />
-  </div>
+  </button>
 </template>
