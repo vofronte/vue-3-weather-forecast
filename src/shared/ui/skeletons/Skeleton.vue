@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { CSSProperties } from 'vue'
 import type { SkeletonProps } from './types'
-// ... (скрипт остается без изменений)
 import { computed, inject, useSlots } from 'vue'
 import { ThemeInjectionKey } from './keys'
 
@@ -48,7 +47,7 @@ function getStyles(): CSSProperties {
 
 <template>
   <span v-if="isLoading" class="skeleton-container">
-    <template v-for="i in count" :key="i">
+    <template v-for="_ in count" :key="_">
       <span :style="getStyles()" class="skeleton-loading" v-html="'&zwnj;'" />
     </template>
   </span>
@@ -71,7 +70,6 @@ function getStyles(): CSSProperties {
   width: 100%;
   border-radius: 0.25rem;
   display: inline-flex;
-  /* line-height: 1; <-- УДАЛЯЕМ ЭТУ СТРОКУ */
   position: relative;
   overflow: hidden;
   vertical-align: middle;

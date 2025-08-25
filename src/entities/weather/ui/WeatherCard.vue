@@ -26,9 +26,9 @@ defineProps<{
 
       <WeatherIcon :code="weatherCode" :wind-speed="windSpeed" class="h-16 w-16" />
 
-      <h1 class="text-5xl leading-[1.3] tracking-tightest font-semibold">
+      <h3 class="text-5xl leading-[1.3] tracking-tightest font-semibold">
         {{ Math.round(temperature) }}°
-      </h1>
+      </h3>
 
       <p class="text-lg leading-[1.2] tracking-tightest font-medium">
         Влажность: {{ humidity }}%

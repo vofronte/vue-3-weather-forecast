@@ -24,9 +24,9 @@ if (error.value)
 <template>
   <div v-if="weather" class="flex flex-col gap-8 md:gap-12">
     <div class="text-center md:text-left">
-      <h2 class="text-2xl leading-[1.3] tracking-tightest font-semibold md:text-4xl">
+      <h1 class="text-2xl leading-[1.3] tracking-tightest font-semibold md:text-4xl">
         Погода в городе {{ city.name }}
-      </h2>
+      </h1>
       <p class="text-xl text-white/60 leading-[1.2] tracking-tightest md:text-2xl">
         сегодня, {{ new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }) }}
       </p>

@@ -38,9 +38,10 @@ export function useGeocoding() {
     }
   }
 
-  const debouncedSearch = useDebounce(searchCities, 300)
+  const [debouncedSearch, cancelSearch] = useDebounce(searchCities, 300)
 
   const clearResults = () => {
+    cancelSearch()
     results.value = []
   }
 
