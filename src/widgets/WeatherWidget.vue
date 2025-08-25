@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type { DailyWeather } from '@/entities/weather/model/types'
+import type { DailyWeather, HourlyWeather } from '@/entities/weather/model/types'
 import type { GeocodingResult } from '@/features/city-search/model/types'
 import { getWeatherDescription } from '@/entities/weather/lib/weatherCodes'
 import { useWeather } from '@/entities/weather/model/useWeather'
 import CurrentWeatherSummary from '@/entities/weather/ui/CurrentWeatherSummary.vue'
+import HourlyForecast from '@/entities/weather/ui/HourlyForecast.vue'
 import WeatherCard from '@/entities/weather/ui/WeatherCard.vue'
 import WeeklyForecast from '@/entities/weather/ui/WeeklyForecast.vue'
 
@@ -31,12 +32,18 @@ if (error.value)
       </p>
     </div>
 
-    <CurrentWeatherSummary
-      v-if="activeTab === 'today'" :temperature="weather.current.temperature_2m"
-      :weather-description="getWeatherDescription(weather.current.weather_code, weather.current.wind_speed_10m)"
-      :humidity="weather.current.relative_humidity_2m" :wind-speed="weather.current.wind_speed_10m"
-      :weather-code="weather.current.weather_code"
-    />
+    <!-- Блок для вкладки "Главная" -->
+    <div v-if="activeTab === 'today'" class="gap-8 grid grid-cols-1 lg:gap-14 lg:grid-cols-2">
+      <CurrentWeatherSummary
+        :temperature="weather.current.temperature_2m"
+        :weather-description="getWeatherDescription(weather.current.weather_code, weather.current.wind_speed_10m)"
+        :humidity="weather.current.relative_humidity_2m" :wind-speed="weather.current.wind_speed_10m"
+        :weather-code="weather.current.weather_code"
+      />
+      <HourlyForecast :hourly="weather.hourly as Readonly<HourlyWeather>" />
+    </div>
+
+    <!-- Блок для вкладки "Неделя" -->
     <WeeklyForecast v-if="activeTab === 'week'" :daily="weather.daily as Readonly<DailyWeather>" />
 
     <section class="flex flex-col gap-4">
